@@ -7,6 +7,27 @@
 
 header {
   text-align: center;
+  margin: 20px 0;
+}
+
+header > h1 {
+  margin-bottom: 10px;
+}
+
+header > h3 {
+  margin-top: 10px;
+}
+
+canvas {
+  width: 800px;
+  height: 600px;
+  outline: 5px solid rgb(0, 75, 205);
+  margin-left: 20%;
+}
+
+#open-file {
+  text-align: center;
+  margin: 20px 0;
 }
 
 footer {
