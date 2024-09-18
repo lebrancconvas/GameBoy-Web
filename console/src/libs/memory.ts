@@ -1,14 +1,7 @@
 export class Memory {
-  private _size: number;
-
-  constructor(size: number) {
-    this._size = size;
-  }
-
-  create() {
-    const buffer = new ArrayBuffer(this._size);
+  static create(size: number) {
+    const buffer = new ArrayBuffer(size);
     const data = new DataView(buffer);
     return data;
   }
-
 };

@@ -1,5 +1,5 @@
 import { Memory } from "./libs";
 
-const memory = new Memory(128);
+const memory = Memory.create(1024);
 
-console.log(memory.create());
+console.log(memory);
