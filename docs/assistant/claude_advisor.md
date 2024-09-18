@@ -167,3 +167,189 @@ Community Engagement: The emulation community is very helpful. Don't hesitate to
 
 Building an emulator is an excellent way to deepen your understanding of computer architecture, low-level programming, and optimization techniques. It's a challenging but rewarding project.
 Would you like me to elaborate on any specific part of this process or provide more details on a particular aspect of GameBoy emulation?
+
+## Issue 02
+
+### Question
+
+Can you give me an idea for the smallest MVP version of Web-Based GameBoy Emulator using TypeScript?
+
+### Answer
+
+Certainly! Let's design a Minimum Viable Product (MVP) for a web-based GameBoy emulator using TypeScript. This MVP will focus on the core functionality needed to run very simple games or demos, without implementing all features of a full GameBoy system.
+
+Here's an outline of what this smallest MVP could look like:
+
+Minimum Viable Product: Web-Based GameBoy Emulator
+Core Components
+
+CPU Emulation
+
+Implement a subset of CPU instructions (e.g., 20-30 most common instructions)
+Basic register handling (A, F, B, C, D, E, H, L, SP, PC)
+Simplified fetch-decode-execute cycle
+
+
+Memory Management
+
+Implement a basic memory map (16KB, no banking)
+Simple read/write functions for memory access
+
+
+Graphics
+
+Implement a basic tile renderer (background only, no sprites)
+Render to HTML5 canvas (160x144 resolution)
+Update screen at a fixed rate (e.g., 60 FPS)
+
+
+Input Handling
+
+Map a few keyboard keys to GameBoy buttons (e.g., arrows, A, B)
+Basic interrupt for input (no need for complex timing)
+
+
+ROM Loading
+
+Allow loading of a single, small ROM file (e.g., 32KB max)
+Parse basic ROM header information
+
+
+
+Implementation Steps
+
+Set up the project
+
+Initialize TypeScript project
+Set up a basic HTML page with canvas element
+
+
+Implement CPU class
+
+Create registers
+Implement a small set of instructions (e.g., LD, INC, DEC, ADD, SUB, JP, CALL, RET)
+
+
+Create Memory class
+
+Implement read and write methods
+Set up a simple memory map
+
+
+Develop basic GPU class
+
+Implement tile rendering for background
+Create a method to update canvas
+
+
+Input handling
+
+Add event listeners for keyboard input
+Map keys to GameBoy buttons
+
+
+Main emulation loop
+
+Create a simple loop that runs CPU instructions
+Update graphics at regular intervals
+
+
+ROM loading
+
+Implement file input and ROM loading functionality
+
+Example Code Structure
+
+```ts
+class CPU {
+  registers: { [key: string]: number } = { A: 0, F: 0, B: 0, C: 0, D: 0, E: 0, H: 0, L: 0, SP: 0, PC: 0 };
+
+  step(memory: Memory): void {
+    const opcode = memory.readByte(this.registers.PC++);
+    this.executeInstruction(opcode, memory);
+  }
+
+  private executeInstruction(opcode: number, memory: Memory): void {
+    // Implement a subset of instructions
+  }
+}
+
+class Memory {
+  private ram: Uint8Array = new Uint8Array(0x4000);  // 16KB of memory
+
+  readByte(address: number): number {
+    return this.ram[address];
+  }
+
+  writeByte(address: number, value: number): void {
+    this.ram[address] = value;
+  }
+}
+
+class GPU {
+  private canvas: HTMLCanvasElement;
+  private ctx: CanvasRenderingContext2D;
+
+  constructor(canvas: HTMLCanvasElement) {
+    this.canvas = canvas;
+    this.ctx = canvas.getContext('2d')!;
+  }
+
+  updateScreen(memory: Memory): void {
+    // Implement basic tile rendering
+  }
+}
+
+class GameBoy {
+  cpu: CPU;
+  memory: Memory;
+  gpu: GPU;
+
+  constructor(canvas: HTMLCanvasElement) {
+    this.cpu = new CPU();
+    this.memory = new Memory();
+    this.gpu = new GPU(canvas);
+  }
+
+  loadROM(rom: Uint8Array): void {
+    // Load ROM into memory
+  }
+
+  step(): void {
+    this.cpu.step(this.memory);
+    this.gpu.updateScreen(this.memory);
+  }
+
+  run(): void {
+    setInterval(() => this.step(), 1000 / 60);  // Run at approx. 60 FPS
+  }
+}
+
+// Usage
+const canvas = document.getElementById('gameboy-screen') as HTMLCanvasElement;
+const gameBoy = new GameBoy(canvas);
+// Implement ROM loading logic
+gameBoy.run();
+```
+This MVP focuses on the bare minimum to get a simple GameBoy program running. It won't run most commercial games but could handle basic custom ROMs or demos.
+
+This MVP design provides a starting point for building a web-based GameBoy emulator using TypeScript. Here are some key points about this minimal version:
+
+Limited Instruction Set: It implements only the most common CPU instructions. This is enough to run simple programs but won't support all GameBoy games.
+Simplified Memory: It uses a basic 16KB memory model without banking, which is sufficient for small ROMs but won't work for larger games.
+Basic Graphics: It only implements background tile rendering, without sprites or scrolling. This allows for static or simple animated displays.
+Minimal Input: It supports basic button inputs but doesn't implement complex timing or interrupts.
+No Sound: Sound emulation is omitted to keep the MVP simple.
+No MBC: It doesn't implement Memory Bank Controllers, limiting the size and complexity of ROMs it can run.
+
+To expand on this MVP, you would:
+
+Implement more CPU instructions to support a wider range of games.
+Add support for Memory Bank Controllers to run larger games.
+Implement sprite rendering and scrolling in the GPU.
+Add sound emulation using the Web Audio API.
+Implement more accurate timing and interrupts.
+Add support for save states and other user-friendly features.
+
+This MVP approach allows you to get a basic emulator up and running quickly, which you can then iteratively improve and expand. It's an excellent way to start the project and understand the core concepts before diving into the more complex aspects of GameBoy emulation.
+Would you like me to elaborate on any specific part of this MVP design or provide more details on implementing any of these components?
